@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1.3
-FROM debian:bullseye AS build
+FROM debian:bookworm AS build
 ENV DEBIAN_FRONTEND=noninteractive
 ARG USE_CCACHE
 RUN apt-get update && apt-get -y full-upgrade && \
-    apt-get install -y build-essential wget git ccache cmake ninja-build libssl-dev
+    apt-get install -y build-essential wget git ccache cmake ninja-build libssl-dev jq python3 glslang-tools
 
 COPY . /root/build-files
 
 RUN --mount=type=cache,id=ccache,target=/root/.ccache \
-    git clone --depth 1000 --recursive https://github.com/citra-emu/citra-canary.git /root/citra-canary && \
+    /root/build-files/.ci/fetch.sh /root/citra-canary && \
     cd /root/citra-canary && /root/build-files/.ci/build.sh
 
 FROM gcr.io/distroless/cc-debian11 AS final
