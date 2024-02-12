@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1.3
-ARG UBUNTU_RELEASE=23.04
+ARG UBUNTU_RELEASE=23.10
 ARG USER=ubuntu UID=101 GROUP=ubuntu GID=101
 
 ### BOILERPLATE BEGIN ###
 
-FROM golang:1.20 AS chisel
+FROM golang:1.22 AS chisel
 ARG UBUNTU_RELEASE
 RUN git clone -b ubuntu-${UBUNTU_RELEASE} https://github.com/canonical/chisel-releases /opt/chisel-releases \
     && git clone --depth 1 -b main https://github.com/canonical/chisel /opt/chisel
