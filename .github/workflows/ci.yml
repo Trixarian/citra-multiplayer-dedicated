@@ -52,7 +52,7 @@ jobs:
         run: |
           mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
-          cache_name="${{ matrix.platform }}"
+          cache_name="digests-${{ matrix.platform }}"
           echo "CACHE_NAME=${cache_name/\//-}" >> $GITHUB_ENV
           touch "/tmp/digests/${digest#sha256:}"
       - name: Upload digest
